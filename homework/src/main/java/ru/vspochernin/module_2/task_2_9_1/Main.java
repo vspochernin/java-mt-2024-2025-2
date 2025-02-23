@@ -1,8 +1,5 @@
 package ru.vspochernin.module_2.task_2_9_1;
 
-/**
- * @author pochernin-vla
- */
 public class Main {
 
     public static void main(String[] args) {
