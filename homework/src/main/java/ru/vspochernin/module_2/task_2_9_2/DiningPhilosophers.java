@@ -1,7 +1,6 @@
 package ru.vspochernin.module_2.task_2_9_2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,26 +8,26 @@ import java.util.concurrent.locks.ReentrantLock;
 class DiningPhilosophers {
 
     private final List<Philosopher> philosophers;
-    private final List<Lock> forks = new ArrayList<>();
-    private final int meals;
+    private final List<Lock> forks;
+    private final int[] meals;
 
     public DiningPhilosophers(int philosophers, int meals) {
         this.philosophers = new ArrayList<>(philosophers);
+        this.forks = new ArrayList<>(philosophers);
         for (int i = 0; i < philosophers; i++) {
             this.philosophers.add(new Philosopher(i, meals));
             this.forks.add(new ReentrantLock());
         }
-        this.meals = meals;
+        this.meals = new int[philosophers];
     }
 
     public int[] execute(long t) {
         List<Thread> threads = new ArrayList<>();
 
         for (int i = 0; i < philosophers.size(); i++) {
-            int finalI = i;
-            threads.add(new Thread(() -> {
-                Philosopher philosopher = philosophers.get(finalI);
-                while (philosopher.mealsRest != 0) {
+            Philosopher philosopher = philosophers.get(i);
+            Thread thread = new Thread(() -> {
+                while (philosopher.mealsRest > 0) {
                     try {
                         think();
                         eat(philosopher, t);
@@ -36,8 +35,9 @@ class DiningPhilosophers {
                         throw new RuntimeException(e);
                     }
                 }
-            }, "Философ " + (i + 1)));
-            threads.get(i).start();
+            }, "Философ " + (i + 1));
+            threads.add(thread);
+            thread.start();
         }
 
         for (Thread thread : threads) {
@@ -48,9 +48,7 @@ class DiningPhilosophers {
             }
         }
 
-        int[] result = new int[philosophers.size()];
-        Arrays.fill(result, meals);
-        return result;
+        return meals;
     }
 
     private void think() throws InterruptedException {
@@ -69,6 +67,7 @@ class DiningPhilosophers {
             try {
                 forks.get(maxFork).lock();
                 philosopher.mealsRest--;
+                meals[philosopher.id]++;
                 Thread.sleep(t);
             } finally {
                 forks.get(maxFork).unlock();
