@@ -28,7 +28,7 @@ class DiningPhilosophers {
             int finalI = i;
             threads.add(new Thread(() -> {
                 Philosopher philosopher = philosophers.get(finalI);
-                while (philosopher.mealsRest > 0) {
+                while (philosopher.mealsRest != 0) {
                     try {
                         think();
                         eat(philosopher, t);
@@ -36,8 +36,8 @@ class DiningPhilosophers {
                         throw new RuntimeException(e);
                     }
                 }
-            },
-                    "Философ " + (i + 1)));
+            }, "Философ " + (i + 1)));
+            threads.get(i).start();
         }
 
         for (Thread thread : threads) {
