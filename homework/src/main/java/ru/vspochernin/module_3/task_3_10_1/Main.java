@@ -11,9 +11,14 @@ public class Main {
     private static final double D = 16.0;
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        CompletableFuture<Double> sumSquaresFuture = CompletableFuture.supplyAsync(() -> calculateSumSquares(A, B));
-        CompletableFuture<Double> logFuture = CompletableFuture.supplyAsync(() -> calculateLog(C));
-        CompletableFuture<Double> sqrtFuture = CompletableFuture.supplyAsync(() -> calculateSqrt(D));
+        double a = A;
+        double b = B;
+        double c = C;
+        double d = D;
+
+        CompletableFuture<Double> sumSquaresFuture = CompletableFuture.supplyAsync(() -> calculateSumSquares(a, b));
+        CompletableFuture<Double> logFuture = CompletableFuture.supplyAsync(() -> calculateLog(c));
+        CompletableFuture<Double> sqrtFuture = CompletableFuture.supplyAsync(() -> calculateSqrt(d));
 
         CompletableFuture<Double> multiplyFuture =
                 sumSquaresFuture.thenCombine(logFuture, (sumSquares, log) -> sumSquares * log);
