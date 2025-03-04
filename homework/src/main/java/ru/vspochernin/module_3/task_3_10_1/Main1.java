@@ -3,7 +3,7 @@ package ru.vspochernin.module_3.task_3_10_1;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class Main {
+public class Main1 {
 
     private static final double A = 3.0;
     private static final double B = 4.0;

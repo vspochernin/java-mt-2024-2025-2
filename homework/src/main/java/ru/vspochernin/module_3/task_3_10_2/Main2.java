@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Main {
+public class Main2 {
 
     private static final int[] BALANCES = {500, 200, 300, 400};
     private static final List<Transaction> TRANSACTIONS = List.of(
