@@ -2,6 +2,7 @@ package ru.vspochernin.module_4.task_4_8_2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +12,11 @@ class Employee {
     private String department;
     private double salary;
     private int age;
+
+    @Override
+    public String toString() {
+        return name + " (" + department + ", $" + salary + ", " + age + " лет)";
+    }
 
     public Employee(String name, String department, double salary, int age) {
         this.name = name;
@@ -47,8 +53,8 @@ class StreamApiTask {
                     if (first.getSalary() == second.getSalary()) {
                         return first.getName().compareTo(second.getName());
                     }
-                    return first.getSalary() - second.getSalary() < 0 ? 1 : -1;
+                    return Double.compare(second.getSalary(), first.getSalary());
                 })
-                .collect(Collectors.groupingBy(Employee::getDepartment));
+                .collect(Collectors.groupingBy(Employee::getDepartment, LinkedHashMap::new, Collectors.toList()));
     }
 }
