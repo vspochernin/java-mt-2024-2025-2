@@ -1,6 +1,7 @@
 package ru.vspochernin.module_5.task_5_12_2;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
         int[][] A = {
                 {1, 2},
