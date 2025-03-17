@@ -10,6 +10,9 @@ import java.util.List;
 class MatrixMultiplier {
 
     public static int[][] multiply(int[][] a, int[][] b) {
+        if (a.length == 0 || a[0].length == 0) {
+            return a;
+        }
         int rowsA = a.length;
         int colsA = a[0].length;
         int colsB = b[0].length;

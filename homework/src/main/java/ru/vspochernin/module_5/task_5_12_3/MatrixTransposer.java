@@ -11,6 +11,9 @@ import java.util.List;
 class MatrixTransposer {
 
     public static int[][] transpose(int[][] a) {
+        if (a.length == 0 || a[0].length == 0) {
+            return a;
+        }
         int rows = a.length;
         int cols = a[0].length;
         int[][] result = new int[cols][rows];
