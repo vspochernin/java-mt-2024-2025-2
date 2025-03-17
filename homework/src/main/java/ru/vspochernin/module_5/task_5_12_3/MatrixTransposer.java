@@ -1,6 +1,7 @@
 package ru.vspochernin.module_5.task_5_12_3;
 
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -9,7 +10,7 @@ import java.util.List;
 
 class MatrixTransposer {
 
-    public static int[][] transpose(int[][] a) throws Exception {
+    public static int[][] transpose(int[][] a) {
         int rows = a.length;
         int cols = a[0].length;
         int[][] result = new int[cols][rows];
@@ -29,7 +30,11 @@ class MatrixTransposer {
         }
 
         for (Future<?> future : futures) {
-            future.get();
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         executor.shutdown();

@@ -1,5 +1,6 @@
 package ru.vspochernin.module_5.task_5_12_2;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -8,7 +9,7 @@ import java.util.List;
 
 class MatrixMultiplier {
 
-    public static int[][] multiply(int[][] a, int[][] b) throws Exception {
+    public static int[][] multiply(int[][] a, int[][] b) {
         int rowsA = a.length;
         int colsA = a[0].length;
         int colsB = b[0].length;
@@ -31,7 +32,11 @@ class MatrixMultiplier {
         }
 
         for (Future<?> future : futures) {
-            future.get();
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         executor.shutdown();
